@@ -3,8 +3,8 @@ import { MyConfigService } from './config.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [ConfigModule],
-    providers: [MyConfigService],
-    exports: [MyConfigService],
+  imports: [ConfigModule],
+  providers: [MyConfigService],
+  exports: [MyConfigService],
 })
-export class MyConfigModule { }
+export class MyConfigModule {}
