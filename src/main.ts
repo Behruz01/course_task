@@ -6,6 +6,9 @@ import { MyConfigService } from "./config/config.service";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+  app.enableCors({
+    origin: 'http://localhost',
+  });
   app.setGlobalPrefix("api")
   const swaggerConfig = new DocumentBuilder()
     .setTitle("Course website")

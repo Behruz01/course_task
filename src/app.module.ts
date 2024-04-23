@@ -1,12 +1,20 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MyConfigModule } from './config/config.module';
+import { AuthModule } from './api/auth/auth.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 10000,
+      limit: 3
+    }]),
+
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true
@@ -37,9 +45,13 @@ import { MyConfigModule } from './config/config.module';
       }),
     }),
     ConfigModule,
-    MyConfigModule
+    MyConfigModule,
+    AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard
+  }],
 })
 export class AppModule { }
