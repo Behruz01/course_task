@@ -26,7 +26,7 @@ export class CoursesService {
   async findAll(getAllCourseDto: GetAllDto) {
     try {
       const { page = 1, limit = 10 } = getAllCourseDto
-      const [files, total] = await this.repo.findAndCount({
+      const [data, total] = await this.repo.findAndCount({
         skip: (page - 1) * limit,
         take: limit,
         relations: ['course_files']
@@ -36,7 +36,7 @@ export class CoursesService {
         page,
         limit,
         total,
-        files,
+        data,
       };
     } catch (error) {
       throw new HttpException(error.message, error.status

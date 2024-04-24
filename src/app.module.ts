@@ -19,6 +19,8 @@ import { AdminsModule } from './api/admins/admins.module';
 import { FileuploadModule } from './api/fileupload/fileupload.module';
 import { FilesModule } from './api/files/files.module';
 import { CoursesModule } from './api/courses/courses.module';
+import { CoursefilesModule } from './api/coursefiles/coursefiles.module';
+import { UsersModule } from './api/users/users.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -65,6 +67,8 @@ import { CoursesModule } from './api/courses/courses.module';
     FileuploadModule,
     FilesModule,
     CoursesModule,
+    CoursefilesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [

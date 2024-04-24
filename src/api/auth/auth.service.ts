@@ -16,13 +16,6 @@ interface userObject {
   id: string
 }
 
-interface forUser extends Request {
-  user?: {
-    user: {
-      id: string
-    }
-  }
-}
 interface ExtendedJwtPayload extends JwtPayload {
   id: string;
 }
@@ -181,19 +174,6 @@ export class AuthService {
       const accessToken = this.createAccessToken(findAdmin)
       const refreshToken = await this.createRefreshToken(findAdmin)
       return { accessToken, refreshToken };
-    } catch (error) {
-      throw new HttpException(error.message, error.status ||
-        HttpStatus.BAD_REQUEST
-      )
-    }
-  }
-
-  myInfo(req: forUser) {
-    try {
-      const { id } = req.user.user
-      const data = this.userRepo.findOne({ where: { id }, relations: ['courses'] })
-
-      return data
     } catch (error) {
       throw new HttpException(error.message, error.status ||
         HttpStatus.BAD_REQUEST

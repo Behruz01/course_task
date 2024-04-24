@@ -48,11 +48,4 @@ export class AuthController {
   adminLogin(@Body() loginDto: LoginDto) {
     return this.authService.adminLogin(loginDto);
   }
-
-  @Get('myinfo')
-  @ApiOperation({ summary: 'User info' })
-  @ApiResponse({ status: 200, description: 'Admin logged in successfully' })
-  myInfo(@Req() req: Request) {
-    return this.authService.myInfo(req);
-  }
 }
