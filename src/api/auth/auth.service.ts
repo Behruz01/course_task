@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UpdateAuthDto } from './dto/update-auth.dto';
-import { LoginDto } from './dto/create-auth.dto';
+import { LoginDto, LogoutDto } from './dto/create-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/infra/entities/users.entity';
 import { UsersRepo } from 'src/infra/repositories/users.repo';
@@ -78,6 +78,37 @@ export class AuthService {
       )
     }
   }
+
+  async logout(logoutDto: LogoutDto) {
+    try {
+      const { refreshToken } = logoutDto
+      const client = createClient();
+      client.on('error', (err) => console.log('Redis Client Error', err));
+      await client.connect();
+
+      if (!refreshToken) {
+        throw new HttpException('Token is required for logout', HttpStatus.BAD_REQUEST);
+      }
+
+      const payload = jwt.verify(refreshToken, this.configService.jwtSecretKey) as ExtendedJwtPayload;
+
+      const userId = payload.id;
+
+      const key = `${userId}:refreshToken`;
+      const redisResult = await client.del(key);
+
+      if (redisResult === 0) {
+        throw new HttpException('Failed to remove token from Redis', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+      await client.disconnect();
+
+      return { message: 'Logout successful' };
+    } catch (error) {
+      throw new HttpException(error.message, error.status || HttpStatus.BAD_REQUEST);
+    }
+  }
+
 
   async refresh(req: Request) {
     try {

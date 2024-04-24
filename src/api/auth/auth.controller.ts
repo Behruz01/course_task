@@ -5,7 +5,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/create-auth.dto';
+import { LoginDto, LogoutDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
@@ -21,6 +21,14 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'User logged in successfully' })
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('logout')
+  @ApiOperation({ summary: 'Admin login' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ status: 200, description: 'User logout successfully' })
+  logout(@Body() logoutDto: LogoutDto) {
+    return this.authService.logout(logoutDto);
   }
 
   @Post('refresh-token')
