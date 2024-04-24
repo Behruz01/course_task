@@ -18,6 +18,7 @@ import { AuthMiddleware } from './common/middlewares/tokenchecker.middleware';
 import { AdminsModule } from './api/admins/admins.module';
 import { FileuploadModule } from './api/fileupload/fileupload.module';
 import { FilesModule } from './api/files/files.module';
+import { CoursesModule } from './api/courses/courses.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -63,6 +64,7 @@ import { FilesModule } from './api/files/files.module';
     AdminsModule,
     FileuploadModule,
     FilesModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [
@@ -81,6 +83,7 @@ export class AppModule implements NestModule {
         { path: '/auth/login', method: RequestMethod.POST },
         { path: '/auth/adminlogin', method: RequestMethod.POST },
         { path: '/auth/refresh-token', method: RequestMethod.POST },
+        { path: '/files/download/', method: RequestMethod.GET },
       )
       .forRoutes('*');
   }

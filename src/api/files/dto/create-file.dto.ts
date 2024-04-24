@@ -6,7 +6,7 @@ export class CreateFileDto {
     filename: string
 }
 
-export class GetAllFileDto {
+export class GetAllDto {
     @IsNumber()
     @IsOptional()
     page: number

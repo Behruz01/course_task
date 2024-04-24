@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Res } from '@nestjs/common';
 import { FilesService } from './files.service';
-import { CreateFileDto, GetAllFileDto } from './dto/create-file.dto';
+import { CreateFileDto, GetAllDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { Roles } from '../decarators/roles.decarator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiTags('Files')
 @Controller('files')
@@ -17,7 +18,7 @@ export class FilesController {
   @Roles(["admin", "superAdmin"])
   @UseGuards(RolesGuard)
   @Get()
-  findAll(@Body() getAllFileDto: GetAllFileDto) {
+  findAll(@Body() getAllFileDto: GetAllDto) {
     return this.filesService.findAll(getAllFileDto);
   }
 
@@ -52,5 +53,10 @@ export class FilesController {
   @UseGuards(RolesGuard)
   remove(@Param('id') id: string) {
     return this.filesService.remove(id);
+  }
+
+  @Get('download/:id')
+  download(@Param('id') id: string, @Res() res: Response) {
+    return this.filesService.download(id, res);
   }
 }
