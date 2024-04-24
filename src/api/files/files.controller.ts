@@ -4,10 +4,11 @@ import { CreateFileDto, GetAllDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { Roles } from '../decarators/roles.decarator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { Response } from 'express';
 
 @ApiTags('Files')
+@ApiBearerAuth()
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) { }

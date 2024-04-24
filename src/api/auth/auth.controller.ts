@@ -2,14 +2,10 @@ import {
   Controller,
   Post,
   Body,
-  Req,
-  Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, LogoutDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -34,10 +30,10 @@ export class AuthController {
 
   @Post('refresh-token')
   @ApiOperation({ summary: 'refresh token' })
-  @ApiBody({ type: LoginDto })
+  @ApiBody({ type: LogoutDto })
   @ApiResponse({ status: 200, description: 'User logged in successfully' })
-  refresh(@Req() req: Request) {
-    return this.authService.refresh(req);
+  refresh(@Body() tokenDto: LogoutDto) {
+    return this.authService.refresh(tokenDto);
   }
 
 

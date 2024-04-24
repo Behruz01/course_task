@@ -11,10 +11,11 @@ import {
 import { CoursefilesService } from './coursefiles.service';
 import { CreateCoursefileDto } from './dto/create-coursefile.dto';
 import { UpdateCoursefileDto } from './dto/update-coursefile.dto';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AdminGuard } from 'src/common/guards/admin.guard';
 
 @ApiTags('CourseFiles')
+@ApiBearerAuth()
 @Controller('coursefiles')
 @UseGuards(AdminGuard)
 export class CoursefilesController {

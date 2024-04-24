@@ -1,7 +1,7 @@
 import { Controller, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { FileUploadDto } from './dto/create-fileupload.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilesEntity } from 'src/infra/entities/files.entity';
@@ -9,6 +9,7 @@ import { FilesRepo } from 'src/infra/repositories/files.repo';
 import { AdminGuard } from 'src/common/guards/admin.guard';
 
 @ApiTags('File Upload')
+@ApiBearerAuth()
 @Controller('fileupload')
 @UseGuards(AdminGuard)
 export class UploadController {

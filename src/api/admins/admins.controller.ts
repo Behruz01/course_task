@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { AdminService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { SuperAdminGuard } from 'src/common/guards/superadmin.guard';
 
 @ApiTags('Admins')
+@ApiBearerAuth()
 @Controller('admins')
 @UseGuards(SuperAdminGuard)
 export class AdminsController {

@@ -21,6 +21,7 @@ import { FilesModule } from './api/files/files.module';
 import { CoursesModule } from './api/courses/courses.module';
 import { CoursefilesModule } from './api/coursefiles/coursefiles.module';
 import { UsersModule } from './api/users/users.module';
+import { UsercoursesModule } from './api/usercourses/usercourses.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -69,6 +70,7 @@ import { UsersModule } from './api/users/users.module';
     CoursesModule,
     CoursefilesModule,
     UsersModule,
+    UsercoursesModule,
   ],
   controllers: [AppController],
   providers: [

@@ -4,11 +4,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersEntity } from 'src/infra/entities/users.entity';
 import { UsersRepo } from 'src/infra/repositories/users.repo';
-interface forUser extends Request {
+export interface forUser extends Request {
   user?: {
-    user: {
-      id: string
-    }
+    id: string
   }
 }
 
@@ -20,7 +18,7 @@ export class UsersService {
 
   async myInfo(req: forUser) {
     try {
-      const { id } = req.user.user
+      const { id } = req.user
       const data = await this.repo.findOne({ where: { id }, relations: ['courses'] })
 
       return data

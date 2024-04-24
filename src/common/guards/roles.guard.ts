@@ -10,9 +10,9 @@ export class RolesGuard implements CanActivate {
     ): boolean | Promise<boolean> | Observable<boolean> {
         console.log("Inside RolesGuard");
         const request = context.switchToHttp().getRequest();
-        const { role } = request.user.user
+        const { role } = request.user;
 
-        const requiredRoles = this.reflector.get(Roles, context.getHandler())   
+        const requiredRoles = this.reflector.get(Roles, context.getHandler())
         if (requiredRoles.some(requiredRole => requiredRole === role)) {
             console.log('User has all reauired role!');
             return true

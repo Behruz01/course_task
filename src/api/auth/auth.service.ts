@@ -28,7 +28,7 @@ export class AuthService {
     private configService: MyConfigService,
   ) { }
   createAccessToken(user: userObject) {
-    return jwt.sign({ user }, this.configService.jwtSecretKey, {
+    return jwt.sign(user, this.configService.jwtSecretKey, {
       expiresIn: "10m",
     });
   }
@@ -38,7 +38,7 @@ export class AuthService {
     client.on('error', (err) => console.log('Redis Client Error', err));
     await client.connect();
 
-    const refreshToken = jwt.sign({ user }, this.configService.jwtSecretKey, {
+    const refreshToken = jwt.sign(user, this.configService.jwtSecretKey, {
       expiresIn: '10h',
     });
 
@@ -111,9 +111,9 @@ export class AuthService {
   }
 
 
-  async refresh(req: Request) {
+  async refresh(tokenDto: LogoutDto) {
     try {
-      const refreshToken = req.body.refreshToken;
+      const refreshToken = tokenDto.refreshToken
 
       if (!refreshToken) {
         throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
