@@ -3,6 +3,7 @@ import {
   Post,
   Body,
   Req,
+  Get,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto, LogoutDto } from './dto/create-auth.dto';
@@ -46,5 +47,12 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Admin logged in successfully' })
   adminLogin(@Body() loginDto: LoginDto) {
     return this.authService.adminLogin(loginDto);
+  }
+
+  @Get('myinfo')
+  @ApiOperation({ summary: 'User info' })
+  @ApiResponse({ status: 200, description: 'Admin logged in successfully' })
+  myInfo(@Req() req: Request) {
+    return this.authService.myInfo(req);
   }
 }

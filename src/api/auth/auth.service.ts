@@ -15,6 +15,14 @@ import { Request } from 'express';
 interface userObject {
   id: string
 }
+
+interface forUser extends Request {
+  user?: {
+    user: {
+      id: string
+    }
+  }
+}
 interface ExtendedJwtPayload extends JwtPayload {
   id: string;
 }
@@ -180,11 +188,16 @@ export class AuthService {
     }
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+  myInfo(req: forUser) {
+    try {
+      const { id } = req.user.user
+      const data = this.userRepo.findOne({ where: { id }, relations: ['courses'] })
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+      return data
+    } catch (error) {
+      throw new HttpException(error.message, error.status ||
+        HttpStatus.BAD_REQUEST
+      )
+    }
   }
 }

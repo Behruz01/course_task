@@ -17,6 +17,7 @@ import { UserCoursesEntity } from './infra/entities/usercourses.entity';
 import { AuthMiddleware } from './common/middlewares/tokenchecker.middleware';
 import { AdminsModule } from './api/admins/admins.module';
 import { FileuploadModule } from './api/fileupload/fileupload.module';
+import { FilesModule } from './api/files/files.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -61,6 +62,7 @@ import { FileuploadModule } from './api/fileupload/fileupload.module';
     AuthModule,
     AdminsModule,
     FileuploadModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [
