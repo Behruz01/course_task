@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -6,6 +7,7 @@ import { MyConfigService } from './config/config.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+  app.use(express.static(process.cwd() + '/uploads/'));
   app.enableCors({
     origin: 'http://localhost',
   });

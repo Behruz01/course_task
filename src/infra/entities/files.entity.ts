@@ -11,7 +11,10 @@ export class FilesEntity extends BaseEntity {
     extension: string
 
     @Column()
-    filesize: string
+    filesize: number
+
+    @Column()
+    filelink: string
 
     @OneToMany(() => CourseFilesEntity, (courses) => courses.file)
     courses: CourseFilesEntity[]
