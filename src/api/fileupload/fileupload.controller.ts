@@ -3,14 +3,14 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { FileUploadDto } from './dto/create-fileupload.dto';
-import { SuperAdminGuard } from 'src/common/guards/superadmin.guard';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilesEntity } from 'src/infra/entities/files.entity';
 import { FilesRepo } from 'src/infra/repositories/files.repo';
+import { AdminGuard } from 'src/common/guards/admin.guard';
 
 @ApiTags('File Upload')
 @Controller('fileupload')
-@UseGuards(SuperAdminGuard)
+@UseGuards(AdminGuard)
 export class UploadController {
   constructor(@InjectRepository(FilesEntity) private readonly repo: FilesRepo) { }
   @Post()

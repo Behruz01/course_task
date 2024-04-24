@@ -8,10 +8,6 @@ import { FilesRepo } from 'src/infra/repositories/files.repo';
 @Injectable()
 export class FilesService {
   constructor(@InjectRepository(FilesEntity) private readonly repo: FilesRepo) { }
-  async create(createFileDto: CreateFileDto) {
-    return 'This action adds a new file';
-  }
-
   async findAll(getAllFileDto: GetAllFileDto) {
     try {
       const { page = 1, limit = 10 } = getAllFileDto
