@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JwtModule } from '@nestjs/jwt';
@@ -14,6 +14,8 @@ import { CourseFilesEntity } from './infra/entities/course_files.entity';
 import { FilesEntity } from './infra/entities/files.entity';
 import { UsersEntity } from './infra/entities/users.entity';
 import { UserCoursesEntity } from './infra/entities/usercourses.entity';
+import { AuthMiddleware } from './common/middlewares/tokenchecker.middleware';
+import { AdminsModule } from './api/admins/admins.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -56,6 +58,7 @@ import { UserCoursesEntity } from './infra/entities/usercourses.entity';
     ConfigModule,
     MyConfigModule,
     AuthModule,
+    AdminsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -66,4 +69,15 @@ import { UserCoursesEntity } from './infra/entities/usercourses.entity';
     },
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(
+        { path: '/auth/login', method: RequestMethod.POST },
+        { path: '/auth/adminlogin', method: RequestMethod.POST },
+        { path: '/auth/refresh-token', method: RequestMethod.POST },
+      )
+      .forRoutes('*');
+  }
+}

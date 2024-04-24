@@ -1,42 +1,42 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { LoginDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('login')
+  @ApiOperation({ summary: 'User login' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ status: 200, description: 'User logged in successfully' })
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Post('refresh-token')
+  @ApiOperation({ summary: 'refresh token' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ status: 200, description: 'User logged in successfully' })
+  refresh(@Req() req: Request) {
+    return this.authService.refresh(req);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('adminlogin')
+  @ApiOperation({ summary: 'Admin login' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ status: 200, description: 'Admin logged in successfully' })
+  adminLogin(@Body() loginDto: LoginDto) {
+    return this.authService.adminLogin(loginDto);
   }
 }
