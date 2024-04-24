@@ -8,6 +8,12 @@ import { MyConfigModule } from './config/config.module';
 import { AuthModule } from './api/auth/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { AdminsEntity } from './infra/entities/admins.entity';
+import { CoursesEntity } from './infra/entities/courses.entity';
+import { CourseFilesEntity } from './infra/entities/course_files.entity';
+import { FilesEntity } from './infra/entities/files.entity';
+import { UsersEntity } from './infra/entities/users.entity';
+import { UserCoursesEntity } from './infra/entities/usercourses.entity';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
@@ -43,7 +49,8 @@ import { APP_GUARD } from '@nestjs/core';
         synchronize: configService.get<boolean>('DB_SYNCHRONIZE', true),
         logging: configService.get<boolean>('DB_LOGGING', false),
         autoLoadEntities: true,
-        entities: [],
+        entities: [AdminsEntity, CoursesEntity, FilesEntity,
+          CourseFilesEntity, UsersEntity, UserCoursesEntity],
       }),
     }),
     ConfigModule,
@@ -59,4 +66,4 @@ import { APP_GUARD } from '@nestjs/core';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
