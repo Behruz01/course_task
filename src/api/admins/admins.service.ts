@@ -16,7 +16,7 @@ export class AdminService {
       const { email, password } = createAdminDto;
 
       const findAdmin = await this.adminRepo.findOne({ where: { email } });
-      if (findAdmin) throw new HttpException("Admin already exists!", HttpStatus.CONFLICT)
+      if (findAdmin) throw new HttpException("Admin already exists!", HttpStatus.CONFLICT);
 
       const hashPass = await bcrypt.hash(password, 12);
 
